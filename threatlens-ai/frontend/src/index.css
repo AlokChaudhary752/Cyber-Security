@@ -64,6 +64,12 @@
   100% { transform: rotate(360deg); }
 }
 
+@keyframes radarSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(600%); }
+}
+
 .animate-radar {
   animation: radar-sweep 4s linear infinite;
 }
+
