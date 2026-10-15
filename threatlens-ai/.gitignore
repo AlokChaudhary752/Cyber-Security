@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Vite & build caches
+.vite/
+dist/
+dist-ssr/
+build/
+
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+env/
+venv/
+.venv/
+
+# Environment files
+.env
+.env*.local
+!.env.example
+
+# Databases & logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Editor & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

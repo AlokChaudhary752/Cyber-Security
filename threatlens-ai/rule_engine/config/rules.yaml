@@ -1,0 +1,18 @@
+rules:
+  brute_force:
+    window: 300 # 5 minutes
+    threshold: 5
+    action: "BLOCK"
+    description: "Prevent credential stuffing and brute force"
+
+  api_velocity:
+    window: 60 # 1 minute
+    threshold: 100
+    action: "RATE_LIMIT"
+    description: "Prevent API abuse and DDoS volumetric spikes"
+
+  ssh_scan:
+    window: 600 # 10 minutes
+    threshold: 10
+    action: "BLOCK"
+    description: "Detect stealthy SSH port scanning"

@@ -1,0 +1,10 @@
+rules:
+  brute_force:
+    window: 300
+    threshold: 5
+    action: "BLOCK"
+
+  api_velocity:
+    window: 60
+    threshold: 100
+    action: "RATE_LIMIT"
