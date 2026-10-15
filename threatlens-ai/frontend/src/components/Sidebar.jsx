@@ -11,6 +11,7 @@ import {
   Binary,
   Flame,
   Terminal,
+  Cpu,
 } from 'lucide-react';
 
 export const Sidebar = ({ activeTab, setActiveTab }) => {
@@ -19,6 +20,7 @@ export const Sidebar = ({ activeTab, setActiveTab }) => {
       title: 'Operations Core',
       items: [
         { id: 'overview', label: 'SOC Command Center', icon: LayoutDashboard },
+        { id: 'livemodel', label: 'Live Model (Real-Time)', icon: Cpu, badge: 'LIVE AI' },
         { id: 'threatmap', label: 'Global Attack Map', icon: Globe, badge: 'ACTIVE' },
         { id: 'livestream', label: 'Live Packet Stream (WS)', icon: Radio, badge: 'LIVE' },
       ],

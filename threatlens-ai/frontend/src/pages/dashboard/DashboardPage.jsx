@@ -30,6 +30,7 @@ import {
   Workflow,
   CheckCircle2,
   Trash2,
+  Cpu,
 } from 'lucide-react';
 import { api } from '../../api/client';
 import { StatsCard } from '../../components/StatsCard';
@@ -42,6 +43,7 @@ import { GlobalAttackMap } from '../../components/GlobalAttackMap';
 import { MitreMatrix } from '../../components/MitreMatrix';
 import { VulnerabilityScanner } from '../../components/VulnerabilityScanner';
 import { SoarPlaybooks } from '../../components/SoarPlaybooks';
+import { LiveModelDetector } from '../../components/LiveModelDetector';
 import {
   INITIAL_ALERTS,
   INITIAL_BLOCKED_IPS,
@@ -582,6 +584,7 @@ export const DashboardPage = ({ activeTab, setActiveTab }) => {
         <div>
           <h1 className="text-2xl font-black font-mono tracking-tight text-white flex items-center gap-2.5">
             {activeTab === 'overview' && 'SOC COMMAND CENTER OVERVIEW'}
+            {activeTab === 'livemodel' && 'LIVE AI MODEL — REAL-TIME INFERENCE & ATTACK SIMULATOR'}
             {activeTab === 'threatmap' && 'GLOBAL CYBER ATTACK MAP & GEOLOCATION'}
             {activeTab === 'livestream' && 'REAL-TIME WEBSOCKET PACKET STREAM'}
             {activeTab === 'mitre' && 'MITRE ATT&CK ENTERPRISE THREAT MATRIX'}
@@ -630,6 +633,36 @@ export const DashboardPage = ({ activeTab, setActiveTab }) => {
       {/* ========================================================================= */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
+          {/* Live Working Model Hero Card */}
+          <div
+            onClick={() => setActiveTab('livemodel')}
+            className="p-5 rounded-2xl bg-gradient-to-r from-cyan-950/60 via-slate-900 to-blue-950/40 border border-cyan-500/40 hover:border-cyan-400 cursor-pointer transition-all flex flex-col sm:flex-row items-center justify-between gap-4 group shadow-[0_0_25px_rgba(0,242,254,0.12)]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(0,242,254,0.3)]">
+                <Cpu className="w-6 h-6 animate-pulse" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-bold font-mono text-white">
+                    LIVE WORKING MODEL — REAL-TIME INFERENCE & ATTACK SIMULATOR
+                  </h3>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse">
+                    LIVE DETECT ACTIVE
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 mt-1">
+                  150-tree Isolation Forest continuously scoring live telemetry. Click to test live attack injection (DDoS, SSH Brute, Log4j RCE, C2) and watch real-time detection!
+                </p>
+              </div>
+            </div>
+
+            <button className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-mono font-bold text-xs hover:shadow-[0_0_20px_rgba(0,242,254,0.4)] transition-all shrink-0 flex items-center gap-2">
+              <Zap className="w-4 h-4" />
+              Launch Live Model HUD &rarr;
+            </button>
+          </div>
+
           {/* Top Metric Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatsCard
@@ -836,6 +869,35 @@ export const DashboardPage = ({ activeTab, setActiveTab }) => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB: LIVE WORKING MODEL & ATTACK SIMULATOR (REAL-TIME DETECT) */}
+      {/* ========================================================================= */}
+      {activeTab === 'livemodel' && (
+        <LiveModelDetector
+          onBlockIp={(ip, reason) => {
+            setBlockedIps((prev) => {
+              if (prev.some((b) => b.ip_address === ip)) return prev;
+              return [
+                {
+                  id: `BLK-${Date.now()}`,
+                  ip_address: ip,
+                  reason,
+                  blocked_by: 'ThreatLens Live AI Model',
+                  blocked_at: new Date().toISOString(),
+                  packets_dropped: Math.floor(Math.random() * 2000 + 500),
+                  status: 'ACTIVE',
+                },
+                ...prev,
+              ];
+            });
+            showToast(`Attacker IP ${ip} auto-blocked in firewall!`, 'success');
+          }}
+          onIncidentDetected={(incident) => {
+            setAlerts((prev) => [incident, ...prev]);
+          }}
+        />
       )}
 
       {/* ========================================================================= */}

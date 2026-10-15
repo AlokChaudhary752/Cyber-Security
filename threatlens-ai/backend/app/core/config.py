@@ -9,8 +9,8 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
 
-    # Database
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:password@localhost:5432/threatlens"
+    # Database - Default to self-contained SQLite with async support (or PostgreSQL via .env)
+    DATABASE_URL: str = "sqlite+aiosqlite:///./threatlens.db"
 
     # JWT
     SECRET_KEY: str = "change-this-secret-key-in-production"
